@@ -64,6 +64,7 @@ function Sidebar() {
 		queryKey: ['groups'],
 		queryFn: getGroups,
 	})
+    
 	console.log(groups)
 	return (
 		<>
