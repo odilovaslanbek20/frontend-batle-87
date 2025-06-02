@@ -9,10 +9,14 @@ import { BsMoonStars, BsSun } from 'react-icons/bs'
 import LanguageModal from './language'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../../zustand/zustand'
+import { useState } from 'react'
+import axios from 'axios'
 
 function Header() {
 	const { t } = useTranslation()
+	const url = import.meta.env.VITE_API_URL
 	const { isOpen, isOpenModal } = useStore()
+	const [search, setSearch] = useState()
 	const token = localStorage.getItem('token')
 	const navigate = useNavigate()
 
@@ -40,6 +44,19 @@ function Header() {
 			},
 		],
 	}
+
+	axios
+		.get(`${url}/search?q=${search}`, {
+			headers: {
+				'X-auth-token': token,
+			},
+		})
+		.then(res => {
+			console.log(res.data)
+		})
+		.catch(err => {
+			console.log(err)
+		})
 
 	return (
 		<header
@@ -81,16 +98,18 @@ function Header() {
             max-[768px]:h-[40px] max-[768px]:order-3 max-[768px]:col-span-2 max-[500px]:h-[36px] max-[768px]:max-w-full'
 				>
 					<LuSearch />
-					<input
-						type='text'
-						placeholder={t('input')}
-						className={`w-full h-full outline-none bg-transparent 
+						<input
+							value={search}
+							onChange={e => setSearch(e.target.value)}
+							type='text'
+							placeholder={t('input')}
+							className={`w-full h-full outline-none bg-transparent 
                 ${
 									isOpen
 										? 'text-white placeholder:text-gray-400'
 										: 'text-gray-900 placeholder:text-gray-500'
 								}`}
-					/>
+						/>
 				</div>
 
 				<div className='flex items-center gap-8 justify-end max-[768px]:order-2 '>

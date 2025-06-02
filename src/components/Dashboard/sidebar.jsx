@@ -25,7 +25,9 @@ function Sidebar() {
 		setDropDown(prev => (prev ? false : true))
 	}
 
-	function handleGroupClick() {}
+	const handleGroupClick = async () => {
+        navigate(`group`)
+    }
 
 	const handleOk = async values => {
 		const { name, password } = values
@@ -64,8 +66,10 @@ function Sidebar() {
 		queryKey: ['groups'],
 		queryFn: getGroups,
 	})
-    
+
 	console.log(groups)
+
+
 	return (
 		<>
 			<div
@@ -91,7 +95,7 @@ function Sidebar() {
       cursor-pointer mb-[15px] transition-all duration-500`}
 				>
 					<FaUserGroup className='text-[#0d6efd]' />
-					<p>Group</p>
+					<p>{t("groups")}</p>
 					<IoIosArrowDown
 						className={`transition-transform duration-300 ${
 							Dropdown ? 'rotate-180' : ''

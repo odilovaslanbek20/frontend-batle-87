@@ -12,6 +12,7 @@ import ProtectedRoute from './components/Auth/protected/protected-route'
 import PublicOnlyRoute from './components/Auth/protected/public-only'
 import Profile from './components/Dashboard/profile'
 import NotFoundPage from './pages/Notfound/not-found-page'
+import Groups from './pages/dashboard/groups'
 
 function App() {
   const router = createBrowserRouter(
@@ -21,6 +22,7 @@ function App() {
         <Route path="register" element={ <PublicOnlyRoute><RegisterPage /></PublicOnlyRoute>}/>
         <Route path="dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>}>
           <Route index element={<Profile />} />
+          <Route path='group' element={<Groups />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>
