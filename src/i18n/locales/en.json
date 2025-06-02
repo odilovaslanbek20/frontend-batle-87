@@ -7,5 +7,9 @@
 	 "copeUserName": "Cope user name",
   "deleteAccount": "Delete account",
 	"log_out": "Log out",
-	"new": "New"
+	"new": "New",
+	"copied_to_clipboard": "Copied!",
+	"copy_failed": "Copy failed!",
+	"account_deleted": "Account deleted!",
+	"are_you_sure": "Are you sure you want to delete the account?"
 }

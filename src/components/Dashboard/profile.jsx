@@ -3,24 +3,53 @@ import { FaTrashAlt } from "react-icons/fa"
 import { MdContentCopy } from "react-icons/md"
 import { useStore } from '../../zustand/zustand'
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 function Profile() {
   const url = import.meta.env.VITE_API_URL
+  const token = localStorage.getItem('token')
   const { t } = useTranslation()
   const {isOpen} = useStore()
   const [data, setData] = useState()
 
-  axios.get(`${url}/auth`, {
-    headers: {
-      'X-auth-token': localStorage.getItem('token')
+  useEffect(() => {
+    axios.get(`${url}/auth`, {
+      headers: {
+        'X-auth-token': token
+      }
+    }).then(res => {
+      setData(res?.data)
+    }).catch(err => {
+      toast.error(err?.message)
+    })
+  },[token, url])
+
+  const deleteAccount = () => {
+    const isDelete = window.confirm(t('are_you_sure'))
+    if(isDelete) {
+      axios.delete(`${url}/users`, {
+        headers: {
+          'X-auth-token': token
+        }
+      }).then(() => {
+        toast.success(t('account_deleted'))
+        localStorage.removeItem('token')
+        window.location.href = '/'
+      }).catch(err => {
+        toast.error(err?.message)
+      })
     }
-  }).then(res => {
-    setData(res?.data)
-    console.log(res?.data)
-  }).catch(err => {
-    console.log(err)
-  })
+  }
+
+  const copyUserName = () => {
+    if(data?.username) {
+      navigator.clipboard.writeText(data.username)
+        .then(() => toast.success(t('copied_to_clipboard')))
+        .catch(() => toast.error(t('copy_failed')))
+    }
+  }
+  
 
   return (
     <div className="bg-transparent p-[20px] ml-[300px]">
@@ -28,11 +57,11 @@ function Profile() {
         <div className="flex items-center justify-between">
           <h2 className="text-[35px] font-[600]">{t("your_profile")}</h2>
           <div className="flex gap-[10px] items-center mb-[20px]">
-            <button className="flex gap-[3px] cursor-pointer items-center py-[6px] px-[10px] bg-[#0d6efd] rounded-[7px]">
+            <button onClick={copyUserName} className="flex gap-[3px] cursor-pointer items-center py-[6px] px-[10px] bg-[#0d6efd] rounded-[7px]">
               <MdContentCopy className="text-[#fff]"/>
               <p className="text-[#fff]">{t("copeUserName")}</p>
             </button>
-            <button className="flex gap-[3px] cursor-pointer items-center py-[6px] px-[10px] bg-[#DC3545] rounded-[7px]">
+            <button onClick={deleteAccount} className="flex gap-[3px] cursor-pointer items-center py-[6px] px-[10px] bg-[#DC3545] rounded-[7px]">
               <FaTrashAlt className="text-[#fff]"/>
               <p className="text-[#fff] ">{t("deleteAccount")}</p>
             </button>
@@ -44,7 +73,7 @@ function Profile() {
           </div>
           <div>
             <div className="flex gap-[20px] items-start mb-[10px]">
-              <h3 className="text-[25px]">{data?.name}</h3>
+              <h3 className="text-[25px] capitalize">{data?.name}</h3>
               <button className="bg-[#198754] px-[7px] rounded-[5px] text-[#fff] ">{data?.status}</button>
             </div>
             <p>{data?.username}</p>

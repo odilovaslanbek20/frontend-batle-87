@@ -7,5 +7,9 @@
 	"copeUserName": "Foydalanuvchi nomini nusxalash",
 	"deleteAccount": "Hisobni o‘chirish",
 	"log_out": "Chiqish",
-	"new": "Yangi"
+	"new": "Yangi",
+	"copied_to_clipboard": "Nusxalandi!",
+	"copy_failed": "Nusxalash muvaffaqiyatsiz!",
+	"account_deleted": "Hisob o‘chirildi!",
+	"are_you_sure": "Hisobni o‘chirishni istaysizmi?"
 }
