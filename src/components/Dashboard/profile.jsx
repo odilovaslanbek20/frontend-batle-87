@@ -1,12 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { FaTrashAlt } from "react-icons/fa"
 import { MdContentCopy } from "react-icons/md"
+import { useStore } from '../../zustand/zustand'
 
 function Profile() {
   const { t } = useTranslation()
+  const {isOpen} = useStore()
   return (
     <div className="bg-transparent p-[20px] ml-[300px]">
-      <div className="bg-[#fff] rounded-[20px] p-[25px]">
+      <div className={`${isOpen ? 'bg-[#2c2c2c] text-white shadow-[0_2px_8px_rgba(255,255,255,0.2)]' : 'bg-[#fff]'} rounded-[20px] p-[25px]`}>
         <div className="flex items-center justify-between">
           <h2 className="text-[35px] font-[600]">{t("your_profile")}</h2>
           <div className="flex gap-[10px] items-center mb-[20px]">

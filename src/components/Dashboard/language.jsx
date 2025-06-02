@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next'
 import gbFlag from '../../assets/flags/gb.svg'
 import ruFlag from '../../assets/flags/ru.svg'
 import uzFlag from '../../assets/flags/uz.svg'
+import { useStore } from '../../zustand/zustand'
 
 const LanguageModal = () => {
 	const { i18n } = useTranslation()
 	const [open, setOpen] = useState(false)
+	const {isOpen} = useStore()
 
 	const languages = [
 		{ code: 'uz', label: 'UZ', flag: uzFlag },
@@ -36,7 +38,7 @@ const LanguageModal = () => {
 					src={currentLang.flag}
 					alt='language'
 				/>
-				<p className='font-medium text-sm text-[#333]'>{currentLang.label}</p>
+				<p className={`font-medium text-sm text-[#333] ${isOpen ? 'text-[#fff]' : 'text-[#333]'}`}>{currentLang.label}</p>
 			</div>
 
 			<AnimatePresence>
@@ -46,16 +48,16 @@ const LanguageModal = () => {
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.95, y: -5 }}
 						transition={{ duration: 0.2 }}
-						className='absolute right-0 z-20 mt-2 w-[100px] rounded-xl bg-white shadow-xl ring-1 ring-black/10'
+						className={`absolute right-0 z-20 mt-2 w-[100px] rounded-xl shadow-xl ring-1 ring-black/10 ${isOpen ? 'bg-[#2c2c2c]' : 'bg-[#fff]'}`}
 					>
 						<div className='py-1'>
 							{languages.map(lang => (
 								<button
 									key={lang.code}
 									onClick={() => handleLanguageSelect(lang.code)}
-									className={`w-full px-4 py-2 text-sm text-left flex items-center gap-2 hover:bg-gray-100 rounded-[9px] transition ${
+									className={`w-full px-4 py-2 text-sm text-left flex items-center gap-2 rounded-[9px] transition ${
 										i18n.language === lang.code
-											? 'bg-gray-100 font-semibold'
+											? 'bg-[#ababab] font-semibold'
 											: ''
 									}`}
 								>
