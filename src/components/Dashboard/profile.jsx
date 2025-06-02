@@ -2,10 +2,26 @@ import { useTranslation } from 'react-i18next'
 import { FaTrashAlt } from "react-icons/fa"
 import { MdContentCopy } from "react-icons/md"
 import { useStore } from '../../zustand/zustand'
+import axios from 'axios'
+import { useState } from 'react'
 
 function Profile() {
+  const url = import.meta.env.VITE_API_URL
   const { t } = useTranslation()
   const {isOpen} = useStore()
+  const [data, setData] = useState()
+
+  axios.get(`${url}/auth`, {
+    headers: {
+      'X-auth-token': localStorage.getItem('token')
+    }
+  }).then(res => {
+    setData(res?.data)
+    console.log(res?.data)
+  }).catch(err => {
+    console.log(err)
+  })
+
   return (
     <div className="bg-transparent p-[20px] ml-[300px]">
       <div className={`${isOpen ? 'bg-[#2c2c2c] text-white shadow-[0_2px_8px_rgba(255,255,255,0.2)]' : 'bg-[#fff]'} rounded-[20px] p-[25px]`}>
@@ -24,14 +40,14 @@ function Profile() {
         </div>
         <div className="flex items-center gap-[30px]">
           <div className="flex items-center justify-center w-[200px] h-[200px] bg-[#DC3545] rounded-[50%]">
-            <h2 className="text-[40px] text-[#fff]">A</h2>
+            <h2 className="text-[40px] text-[#fff] uppercase">{data?.name ? data.name.charAt(0) : ''}</h2>
           </div>
           <div>
             <div className="flex gap-[20px] items-start mb-[10px]">
-              <h3 className="text-[25px]">Asliddin</h3>
-              <button className="bg-[#198754] px-[7px] rounded-[5px] text-[#fff]">Active</button>
+              <h3 className="text-[25px]">{data?.name}</h3>
+              <button className="bg-[#198754] px-[7px] rounded-[5px] text-[#fff] ">{data?.status}</button>
             </div>
-            <p>asliddin7</p>
+            <p>{data?.username}</p>
           </div>
         </div>
       </div>
