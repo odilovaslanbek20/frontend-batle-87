@@ -1,9 +1,9 @@
-import Register from '../../cpmponents/Auth/Register/Register'
+import Register from '../../components/Auth/Register/Register'
 
 function RegisterPage() {
 	return (
 		<>
-		 <Register/>
+			<Register />
 		</>
 	)
 }

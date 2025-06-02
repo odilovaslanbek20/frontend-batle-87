@@ -1,9 +1,9 @@
-import Login from '../../cpmponents/Auth/Login/Login'
+import Login from '../../components/Auth/Login/Login'
 
 function LoginPage() {
 	return (
 		<>
-		 <Login/>
+			<Login />
 		</>
 	)
 }
